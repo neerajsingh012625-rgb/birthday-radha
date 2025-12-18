@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy Birthday Radha 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif}
+body{background:black;color:white;overflow:hidden;height:100vh}
+
+.story{
+position:absolute;inset:0;
+display:flex;align-items:center;justify-content:center;
+background:radial-gradient(circle at top,#2a004f,#000);
+}
+
+.slide{
+display:none;
+text-align:center;
+padding:20px;
+width:100%;
+max-width:420px;
+animation:fade 1s ease;
+}
+.slide.active{display:block}
+
+@keyframes fade{
+from{opacity:0;transform:scale(.95)}
+to{opacity:1;transform:scale(1)}
+}
+
+.name{
+font-size:2.4rem;
+font-weight:bold;
+margin-top:40px;
+text-shadow:0 0 25px hotpink;
+}
+
+.media{
+width:85vw;
+max-width:320px;
+height:85vw;
+max-height:320px;
+margin:25px auto;
+border-radius:20px;
+overflow:hidden;
+border:4px solid white;
+box-shadow:0 0 35px pink;
+}
+
+.media img,.media video{
+width:100%;height:100%;object-fit:cover;
+}
+
+.msg{
+font-size:1.1rem;
+line-height:1.6;
+margin-top:15px;
+}
+
+/* effects */
+.balloon,.heart,.confetti,.firework{position:absolute}
+
+.balloon{
+bottom:-100px;width:40px;height:55px;border-radius:50%;
+animation:float 9s linear infinite;
+}
+@keyframes float{
+0%{transform:translateY(0)}
+100%{transform:translateY(-120vh)}
+}
+
+.heart{font-size:18px;color:red;animation:fall 6s linear infinite}
+@keyframes fall{
+0%{transform:translateY(-10vh)}
+100%{transform:translateY(110vh)}
+}
+
+.confetti{
+width:8px;height:14px;
+animation:conf 5s linear infinite;
+}
+@keyframes conf{
+0%{transform:translateY(-10vh) rotate(0)}
+100%{transform:translateY(110vh) rotate(360deg)}
+}
+
+.firework{
+width:6px;height:6px;background:white;border-radius:50%;
+animation:boom 1.2s infinite;
+}
+@keyframes boom{
+0%{transform:scale(0);opacity:1}
+100%{transform:scale(6);opacity:0}
+}
+</style>
+</head>
+
+<body>
+
+<audio autoplay loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<div class="story">
+
+<!-- Slide 1 -->
+<div class="slide active">
+<div class="name" id="typing"></div>
+</div>
+
+<!-- Photo -->
+<div class="slide">
+<div class="media"><img src="photo1.jpg"></div>
+</div>
+
+<!-- Video -->
+<div class="slide">
+<div class="media">
+<video src="video1.mp4" autoplay muted loop></video>
+</div>
+</div>
+
+<!-- Photo -->
+<div class="slide">
+<div class="media"><img src="photo2.jpg"></div>
+</div>
+
+<!-- Final -->
+<div class="slide">
+<div class="msg">
+Happy Birthday Radha 🎉<br>
+Tumhara jeevan khushiyon se bhara ho 💕<br>
+Stay happy & healthy always 🌸
+</div>
+</div>
+
+</div>
+
+<script>
+/* Typing */
+let text="Happy Birthday Radha 💖";
+let i=0;
+function type(){
+if(i<text.length){
+document.getElementById("typing").innerHTML+=text.charAt(i);
+i++;setTimeout(type,120);
+}}
+type();
+
+/* Auto slide */
+let slides=document.querySelectorAll(".slide");
+let current=0;
+setInterval(()=>{
+slides[current].classList.remove("active");
+current=(current+1)%slides.length;
+slides[current].classList.add("active");
+},3500);
+
+/* Effects */
+for(let i=0;i<18;i++){
+let b=document.createElement("div");
+b.className="balloon";
+b.style.left=Math.random()*100+"%";
+b.style.background=`hsl(${Math.random()*360},100%,60%)`;
+document.body.appendChild(b);
+}
+for(let i=0;i<25;i++){
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="❤️";
+h.style.left=Math.random()*100+"%";
+document.body.appendChild(h);
+}
+for(let i=0;i<30;i++){
+let c=document.createElement("div");
+c.className="confetti";
+c.style.left=Math.random()*100+"%";
+c.style.background=`hsl(${Math.random()*360},100%,60%)`;
+document.body.appendChild(c);
+}
+setInterval(()=>{
+let f=document.createElement("div");
+f.className="firework";
+f.style.left=Math.random()*100+"%";
+f.style.top=Math.random()*60+"%";
+document.body.appendChild(f);
+setTimeout(()=>f.remove(),1200);
+},400);
+</script>
+
+</body>
+</html>
