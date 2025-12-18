@@ -32,28 +32,22 @@ to{opacity:1;transform:scale(1)}
 
 .name{
 font-size:2.5rem;
-font-weight:bold;
-margin-top:40px;
+margin-top:35px;
 text-shadow:0 0 25px hotpink;
 }
 
 .media{
-width:85vw;
-max-width:320px;
-height:85vw;
-max-height:320px;
-margin:25px auto;
+width:85vw;max-width:320px;
+height:85vw;max-height:320px;
+margin:20px auto;
 border-radius:20px;
 overflow:hidden;
 border:4px solid white;
 box-shadow:0 0 35px pink;
 }
 
-.media img,
-.media video{
-width:100%;
-height:100%;
-object-fit:cover;
+.media img,.media video{
+width:100%;height:100%;object-fit:cover;
 }
 
 .msg{
@@ -62,20 +56,35 @@ line-height:1.6;
 margin-top:15px;
 }
 
-/* effects */
-.balloon,.heart,.confetti,.firework{position:absolute}
-
-.balloon{
-bottom:-100px;width:40px;height:55px;border-radius:50%;
-animation:float 9s linear infinite;
+/* Music Button */
+.music-btn{
+position:fixed;
+top:15px;right:15px;
+background:rgba(255,255,255,.2);
+border:2px solid white;
+border-radius:50%;
+width:45px;height:45px;
+display:flex;align-items:center;justify-content:center;
+font-size:20px;
+cursor:pointer;
+z-index:999;
 }
-@keyframes float{
-0%{transform:translateY(0)}
-100%{transform:translateY(-120vh)}
+
+/* Cake */
+.cake{
+font-size:70px;
+animation:cake 2s ease;
+}
+@keyframes cake{
+0%{transform:scale(0)}
+50%{transform:scale(1.2)}
+100%{transform:scale(1)}
 }
 
-.heart{
-font-size:18px;color:red;
+/* Rain items */
+.rain{
+position:absolute;
+font-size:22px;
 animation:fall 6s linear infinite;
 }
 @keyframes fall{
@@ -83,18 +92,31 @@ animation:fall 6s linear infinite;
 100%{transform:translateY(110vh)}
 }
 
-.confetti{
-width:8px;height:14px;
-animation:conf 5s linear infinite;
+/* Balloons */
+.balloon{
+position:absolute;
+bottom:-120px;
+width:40px;height:60px;
+border-radius:50%;
+animation:float 10s linear infinite;
 }
-@keyframes conf{
-0%{transform:translateY(-10vh) rotate(0)}
-100%{transform:translateY(110vh) rotate(360deg)}
+.balloon::after{
+content:"|";
+position:absolute;
+top:60px;left:50%;
+color:white;
+}
+@keyframes float{
+0%{transform:translateY(0)}
+100%{transform:translateY(-130vh)}
 }
 
+/* Fireworks */
 .firework{
+position:absolute;
 width:6px;height:6px;
-background:white;border-radius:50%;
+background:white;
+border-radius:50%;
 animation:boom 1.2s infinite;
 }
 @keyframes boom{
@@ -106,101 +128,94 @@ animation:boom 1.2s infinite;
 
 <body>
 
-<!-- Romantic Music -->
-<audio autoplay loop>
+<!-- Music -->
+<audio id="music" autoplay loop>
 <source src="music.mp3" type="audio/mpeg">
 </audio>
 
+<div class="music-btn" onclick="toggleMusic()">🎵</div>
+
 <div class="story">
 
-<!-- Slide 1 : Typing -->
+<!-- Slide 1 -->
 <div class="slide active">
 <div class="name" id="typing"></div>
 </div>
 
-<!-- Photo 1 -->
-<div class="slide">
-<div class="media"><img src="photo1.jpg"></div>
-</div>
-
-<!-- Video 1 -->
-<div class="slide">
-<div class="media">
-<video src="video1.mp4" autoplay muted loop></video>
-</div>
-</div>
-
-<!-- Photo 2 -->
-<div class="slide">
-<div class="media"><img src="photo2.jpg"></div>
-</div>
-
-<!-- Video 2 -->
-<div class="slide">
-<div class="media">
-<video src="video2.mp4" autoplay muted loop></video>
-</div>
-</div>
-
-<!-- Photo 3 -->
-<div class="slide">
-<div class="media"><img src="photo3.jpg"></div>
-</div>
+<!-- Photo & Video Slides -->
+<div class="slide"><div class="media"><img src="photo1.jpg"></div></div>
+<div class="slide"><div class="media"><video src="video1.mp4" autoplay muted loop></video></div></div>
+<div class="slide"><div class="media"><img src="photo2.jpg"></div></div>
+<div class="slide"><div class="media"><video src="video2.mp4" autoplay muted loop></video></div></div>
+<div class="slide"><div class="media"><img src="photo3.jpg"></div></div>
 
 <!-- Final Message -->
 <div class="slide">
 <div class="msg">
-🎉 Happy Birthday Radha 🎉<br>
-Tumhara jeevan khushiyon se bhara ho 💕<br>
-Stay happy & healthy always 🌸
+🌸 Happy Birthday Radha 🌸<br><br>
+May your life always be filled with love, peace and beautiful smiles 💖  
+You deserve happiness today and always ✨  
+Stay the same wonderful soul you are 🌷
 </div>
 </div>
 
 </div>
 
 <script>
-/* Typing animation */
+/* Typing */
 let text="Happy Birthday Radha 💖";
 let i=0;
 function type(){
 if(i<text.length){
 document.getElementById("typing").innerHTML+=text.charAt(i);
-i++;
-setTimeout(type,120);
+i++;setTimeout(type,120);
 }}
 type();
 
-/* Auto slide */
+/* Auto slide + cake */
 let slides=document.querySelectorAll(".slide");
 let current=0;
 setInterval(()=>{
 slides[current].classList.remove("active");
+
+/* Cake cutting */
+let cake=document.createElement("div");
+cake.className="cake";
+cake.innerHTML="🎂";
+document.body.appendChild(cake);
+setTimeout(()=>cake.remove(),2000);
+
 current=(current+1)%slides.length;
 slides[current].classList.add("active");
-},3500);
+},4000);
 
-/* Effects */
-for(let i=0;i<18;i++){
+/* Music toggle */
+function toggleMusic(){
+let m=document.getElementById("music");
+m.paused?m.play():m.pause();
+}
+
+/* Rain (hearts, roses, sunflowers) */
+let items=["❤️","🌹","🌻"];
+for(let i=0;i<40;i++){
+let r=document.createElement("div");
+r.className="rain";
+r.innerHTML=items[Math.floor(Math.random()*items.length)];
+r.style.left=Math.random()*100+"%";
+r.style.animationDuration=4+Math.random()*4+"s";
+document.body.appendChild(r);
+}
+
+/* Balloons */
+for(let i=0;i<12;i++){
 let b=document.createElement("div");
 b.className="balloon";
 b.style.left=Math.random()*100+"%";
 b.style.background=`hsl(${Math.random()*360},100%,60%)`;
 document.body.appendChild(b);
 }
-for(let i=0;i<25;i++){
-let h=document.createElement("div");
-h.className="heart";
-h.innerHTML="❤️";
-h.style.left=Math.random()*100+"%";
-document.body.appendChild(h);
-}
-for(let i=0;i<30;i++){
-let c=document.createElement("div");
-c.className="confetti";
-c.style.left=Math.random()*100+"%";
-c.style.background=`hsl(${Math.random()*360},100%,60%)`;
-document.body.appendChild(c);
-}
+
+/* Fireworks */
 setInterval(()=>{
 let f=document.createElement("div");
 f.className="firework";
@@ -208,9 +223,8 @@ f.style.left=Math.random()*100+"%";
 f.style.top=Math.random()*60+"%";
 document.body.appendChild(f);
 setTimeout(()=>f.remove(),1200);
-},400);
+},500);
 </script>
 
 </body>
 </html>
-
